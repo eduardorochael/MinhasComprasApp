@@ -1,5 +1,5 @@
-﻿using SQLite;
-
+﻿
+using SQLite;
 namespace MinhasComprasApp.Models
 {
     public class Produto
