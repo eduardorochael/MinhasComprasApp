@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using MinhasComprasApp.Models;
+﻿using MinhasComprasApp.Models;
 using SQLite;
 
 
