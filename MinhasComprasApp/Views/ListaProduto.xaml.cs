@@ -1,21 +1,38 @@
+using System.Collections.ObjectModel;
+using MinhasComprasApp.Models;
+
 namespace MinhasComprasApp.Views;
 
 public partial class ListaProduto : ContentPage
 {
-	public ListaProduto()
-	{
-		InitializeComponent();
-	}
+    ObservableCollection<Produto> lista = new ObservableCollection<Produto>();
 
-    private void ToolbarItem_Clicked(object sender, EventArgs e)
+    public ListaProduto()
     {
-		try
-		{
-			Navigation.PushAsync(new Views.NovoProduto());
+        InitializeComponent();
 
-		}catch (Exception ex)
-		{
-			DisplayAlert("Ops",ex.Message,"Ok");
-		}
+        lst_produtos.ItemsSource = lista;
+
+    }
+
+    protected async override void OnAppearing()
+    {
+        List<Produto> tap = await App.Db.GetAll();
+
+        tap.ForEach(i => lista.Add(i));
+    }
+    
+
+    private  void ToolbarItem_Clicked(object sender, EventArgs e)
+    {        
+           try
+        {
+            Navigation.PushAsync(new Views.NovoProduto());
+
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Ops", ex.Message, "OK");
+        }
     }
 }
