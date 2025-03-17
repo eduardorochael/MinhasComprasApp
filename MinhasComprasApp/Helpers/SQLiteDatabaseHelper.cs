@@ -1,7 +1,6 @@
 ﻿using MinhasComprasApp.Models;
 using SQLite;
 
-
 namespace MinhasComprasApp.Helpers
 {
     public class SQLiteDatabaseHelper
@@ -40,9 +39,14 @@ namespace MinhasComprasApp.Helpers
 
         public Task<List<Produto>> Search(string q)
         {
-            string sql = "SELECT * Produto WHERE descricao LIKE '%" + q + "%'";
+            string sql = "SELECT * FROM Produto WHERE descricao LIKE '%" + q + "%'";
 
             return _conn.QueryAsync<Produto>(sql);
+        }
+
+        internal void Delete(Produto produto)
+        {
+            throw new NotImplementedException();
         }
     }
 }
