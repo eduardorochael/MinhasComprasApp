@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using CloudKit;
 using MinhasComprasApp.Models;
 using MinhasComprasApp.Views;
 using SQLite;
@@ -21,15 +20,23 @@ public partial class ListaProduto : ContentPage
 
     protected async override void OnAppearing()
     {
-        List<Produto> tap = await App.Db.GetAll();
+        try
+        {            
+            List<Produto> tap = await App.Db.GetAll();
 
-        tap.ForEach(i => lista.Add(i));
+            tap.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+           await DisplayAlert("Ops", ex.Message, "OK");
+        }
+       
     }
-    
 
-    private  void ToolbarItem_Clicked(object sender, EventArgs e)
-    {        
-           try
+
+    private void ToolbarItem_Clicked(object sender, EventArgs e)
+    {
+        try
         {
             Navigation.PushAsync(new Views.NovoProduto());
 
@@ -42,13 +49,21 @@ public partial class ListaProduto : ContentPage
 
     private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
     {
-        string q = e.NewTextValue;
+        try
+        {
+            string q = e.NewTextValue;
 
-        lista.Clear();
+            lista.Clear();
 
-        List<Produto> tap = await App.Db.Search(q);
+            List<Produto> tap = await App.Db.Search(q);
 
-        tap.ForEach(i => lista.Add(i));
+            tap.ForEach(i => lista.Add(i));
+
+        }
+        catch (Exception ex) 
+        {
+           await DisplayAlert("Ops", ex.Message, "OK");
+        }
     }
 
     private void ToolbarItem_Clicked_1(object sender, EventArgs e)
@@ -62,38 +77,45 @@ public partial class ListaProduto : ContentPage
 
     private async void MenuItem_Clicked(object sender, EventArgs e)
     {
-        if (sender is MenuItem menuItem && menuItem.BindingContext is Produto produto)
-        {
-            bool confirmacao = await DisplayAlert(
-                "Confirmação",
-                $"Deseja remover o produto {produto.Descricao}?",
-                "Sim",
-                "Não"
-            );
+        try 
+        { 
+            MenuItem selecionado = sender as MenuItem;
 
-            if (confirmacao)
+            Produto p = selecionado.BindingContext as Produto;
+
+            bool confirm = await DisplayAlert("Tem certeza?", $"Remover {p.Descricao}?","SIM","NÃO");
+
+            if (confirm) 
             {
-                await App.Db.Delete(produto); // Certifique-se de que App.Db.Delete retorna Task
-
-                lista.Remove(produto); // Remove da lista local para atualizar a tela
+                await App.Db.Delete(p.Id);
+                lista.Remove(p);
             }
+
         }
+        catch (Exception ex)
+        {
+           await DisplayAlert("Ops", ex.Message, "OK");
+        }
+
+
     }
 
-    public class DatabaseService
+    private void lst_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
-        private readonly SQLiteAsyncConnection database;
-
-        public DatabaseService(string dbPath)
+        try
         {
-            database = new SQLiteAsyncConnection(dbPath);
-            database.CreateTableAsync<Produto>().Wait();
+            Produto p = e.SelectedItem as Produto;
+
+            Navigation.PushAsync(new Views.EditarProduto 
+            {
+                BindingContext = p,
+            });
+
+           
         }
-
-        public async Task Delete(Produto produto)
+        catch (Exception ex)
         {
-            await database.DeleteAsync(produto);
+            DisplayAlert("Ops", ex.Message, "OK");
         }
     }
-
 }
