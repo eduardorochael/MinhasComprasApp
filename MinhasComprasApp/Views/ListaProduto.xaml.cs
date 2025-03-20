@@ -21,7 +21,8 @@ public partial class ListaProduto : ContentPage
     protected async override void OnAppearing()
     {
         try
-        {            
+        { 
+            lista.Clear(); // para não deixa duplicado a lista 
             List<Produto> tap = await App.Db.GetAll();
 
             tap.ForEach(i => lista.Add(i));
