@@ -1,4 +1,5 @@
 ﻿using MinhasComprasApp.Helpers;
+using System.Globalization;
 
 namespace MinhasComprasApp
 {
@@ -24,9 +25,17 @@ namespace MinhasComprasApp
         public App()
         {
             InitializeComponent();
+            
+            //Modificação da TREAD
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR");
 
             //MainPage = new AppShell();
             MainPage = new NavigationPage(new Views.ListaProduto());
+        }
+
+        private object CultureInfo(string v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

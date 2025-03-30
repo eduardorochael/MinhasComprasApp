@@ -2,10 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MinhasComprasApp.Views.ListaProduto"
-             Title="ListaProduto">
+             Title="Minhas Compras">
 
-    
-    <ContentPage.ToolbarItems>
+        <ContentPage.ToolbarItems>
         <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1"/>
         <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
@@ -33,15 +32,13 @@
                         <Grid ColumnDefinitions=" *, *, *, *, *">
                             <Label Grid.Column="0" Text="{Binding Id}" />
                             <Label Grid.Column="1" Text="{Binding Descricao}" />
-                            <Label Grid.Column="2" Text="{Binding Preco}" />
+                            <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{}{0:c}'}" />
                             <Label Grid.Column="3" Text="{Binding Quantidade}" />
-                            <Label Grid.Column="4" Text="{Binding Total}" />
+                            <Label Grid.Column="4" Text="{Binding Total, StringFormat='{}{0:c}'}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
-
     </VerticalStackLayout>
 </ContentPage>

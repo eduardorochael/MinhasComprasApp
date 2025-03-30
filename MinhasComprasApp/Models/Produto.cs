@@ -1,5 +1,5 @@
-﻿
-using SQLite;
+﻿using SQLite;
+
 namespace MinhasComprasApp.Models
 {
     public class Produto
@@ -18,11 +18,9 @@ namespace MinhasComprasApp.Models
                 }
                 _descricao = value;
             }
-                
         }
         public double Quantidade { get; set; }
         public double Preco {  get; set; }
-
         public double Total { get => Quantidade * Preco; }
     }
 }
