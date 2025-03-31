@@ -17,7 +17,7 @@ public partial class ListaProduto : ContentPage
     protected async override void OnAppearing()
     {
         try
-        { 
+        {
             lista.Clear(); // para não deixa duplicado a lista 
             List<Produto> tmp = await App.Db.GetAll();
 
@@ -25,9 +25,9 @@ public partial class ListaProduto : ContentPage
         }
         catch (Exception ex)
         {
-           await DisplayAlert("Ops", ex.Message, "OK");
+            await DisplayAlert("Ops", ex.Message, "OK");
         }
-       
+
     }
 
 
@@ -51,7 +51,7 @@ public partial class ListaProduto : ContentPage
             string q = e.NewTextValue;
 
             lst_produtos.IsRefreshing = true;
-            
+
             lista.Clear();
 
             List<Produto> tmp = await App.Db.GetAll();
@@ -59,9 +59,9 @@ public partial class ListaProduto : ContentPage
             tmp.ForEach(i => lista.Add(i));
 
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
-           await DisplayAlert("Ops", ex.Message, "OK");
+            await DisplayAlert("Ops", ex.Message, "OK");
         }
     }
 
@@ -76,15 +76,15 @@ public partial class ListaProduto : ContentPage
 
     private async void MenuItem_Clicked(object sender, EventArgs e)
     {
-        try 
-        { 
+        try
+        {
             MenuItem selecionado = sender as MenuItem;
 
             Produto p = selecionado.BindingContext as Produto;
 
-            bool confirm = await DisplayAlert("Tem certeza?", $"Remover {p.Descricao}?","SIM","NÃO");
+            bool confirm = await DisplayAlert("Tem certeza?", $"Remover {p.Descricao}?", "SIM", "NÃO");
 
-            if (confirm) 
+            if (confirm)
             {
                 await App.Db.Delete(p.Id);
                 lista.Remove(p);
@@ -93,7 +93,7 @@ public partial class ListaProduto : ContentPage
         }
         catch (Exception ex)
         {
-           await DisplayAlert("Ops", ex.Message, "OK");
+            await DisplayAlert("Ops", ex.Message, "OK");
         }
 
 
@@ -107,12 +107,12 @@ public partial class ListaProduto : ContentPage
             Produto p = e.SelectedItem as Produto;
 #pragma warning restore CS8600 // Conversão de literal nula ou possível valor nulo em tipo não anulável.
 
-            Navigation.PushAsync(new Views.EditarProduto 
+            Navigation.PushAsync(new Views.EditarProduto
             {
                 BindingContext = p,
             });
 
-           
+
         }
         catch (Exception ex)
         {
@@ -120,11 +120,11 @@ public partial class ListaProduto : ContentPage
         }
     }
 
-    private async  void lst_produtos_Refreshing(object sender, EventArgs e)
+    private async void lst_produtos_Refreshing(object sender, EventArgs e)
     {
         try
         {
-            
+
             lista.Clear();
 
             List<Produto> tmp = await App.Db.GetAll();
@@ -135,7 +135,8 @@ public partial class ListaProduto : ContentPage
         catch (Exception ex)
         {
             await DisplayAlert("Ops", ex.Message, "OK");
-        } finally
+        }
+        finally
         {
             lst_produtos.IsRefreshing = false;
         }
