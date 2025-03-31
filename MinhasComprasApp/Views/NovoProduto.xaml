@@ -15,6 +15,14 @@
         <Entry x:Name="txt_quantidade" Keyboard="Numeric" /> 
 
         <Label Text="Preço Unitário:"/>
-        <Entry x:Name="txt_preco" Keyboard="Numeric" />
+        <Entry x:Name="txt_preco"  />
+
+        <Label Text="Categoria:"/>
+        <Entry x:Name="txt_categoria"/>
+
+        <Label Text="Data Cadastro:"/>
+        <DatePicker x:Name="dt_datacompra"/>
+
+
     </VerticalStackLayout>
 </ContentPage>

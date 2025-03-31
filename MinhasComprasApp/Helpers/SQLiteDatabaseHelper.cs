@@ -1,4 +1,5 @@
 ﻿using MinhasComprasApp.Models;
+using MinhasComprasApp.Views;
 using SQLite;
 
 namespace MinhasComprasApp.Helpers
@@ -15,6 +16,13 @@ namespace MinhasComprasApp.Helpers
 
         public Task<int> Insert(Produto p)
         {
+
+            //Garantir que data do cadastro seja preenchida 
+            if (p.Data == DateTime.MinValue)
+            {                                            //Modificação utilizando IF 
+                p.Data = DateTime.MinValue;
+            }
+
             return _conn.InsertAsync(p);
         }
 
@@ -44,6 +52,20 @@ namespace MinhasComprasApp.Helpers
             return _conn.QueryAsync<Produto>(sql);
         }
 
+      
+        // Novo método para buscar produtos por categoria
+        public Task<List<Produto>> GetByCategory(string categoria)
+        {
+            string sql = "SELECT * FROM Produto WHERE Categoria = ?";
+            return _conn.QueryAsync<Produto>(sql, categoria);
+        }
+
+        // Novo método para buscar produtos por período
+        public Task<List<Produto>> GetByDateRange(DateTime inicio, DateTime fim)
+        {
+            string sql = "SELECT * FROM Produto WHERE Data BETWEEN ? AND ?";
+            return _conn.QueryAsync<Produto>(sql, inicio, fim);
+        }
         internal void Delete(Produto produto)
         {
             throw new NotImplementedException();
